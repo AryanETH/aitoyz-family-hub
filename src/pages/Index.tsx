@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
-import { Sparkles, Map, Utensils, ExternalLink } from "lucide-react";
+import { Utensils, ExternalLink } from "lucide-react";
 import yourelLogo from "@/assets/yourel-logo.png";
+import oplusLogo from "@/assets/oplus-logo.png";
+import maplixLogo from "@/assets/maplix-logo.png";
 
 interface Project {
   name: string;
@@ -16,14 +18,14 @@ const projects: Project[] = [
     name: "Oplus",
     url: "https://playoplus.in",
     tagline: "TikTok-styled AI-powered social gaming platform",
-    icon: <Sparkles className="w-6 h-6" />,
+    icon: <img src={oplusLogo} alt="Oplus" className="w-6 h-6 object-contain" />,
     gradient: "from-primary to-accent",
   },
   {
     name: "Maplix",
     url: "https://maplix.vercel.app",
     tagline: "Next-gen AI-enabled discovery map",
-    icon: <Map className="w-6 h-6" />,
+    icon: <img src={maplixLogo} alt="Maplix" className="w-6 h-6 object-contain" />,
     gradient: "from-accent to-primary",
   },
   {
