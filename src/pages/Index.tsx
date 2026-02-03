@@ -23,21 +23,21 @@ const projects: Project[] = [
     url: "https://maplix.vercel.app",
     tagline: "Next-gen AI-enabled discovery map",
     icon: <Map className="w-6 h-6" />,
-    gradient: "from-secondary to-primary",
+    gradient: "from-accent to-primary",
   },
   {
     name: "SwapEat",
     url: "https://swap-bite-find.onrender.com/",
     tagline: "Hyperlocal food-sharing platform",
     icon: <Utensils className="w-6 h-6" />,
-    gradient: "from-accent to-secondary",
+    gradient: "from-secondary to-accent",
   },
   {
     name: "Yourel",
     url: "https://yourel.in",
     tagline: "Native Search engine for unranked sites",
     icon: <Search className="w-6 h-6" />,
-    gradient: "from-primary via-secondary to-accent",
+    gradient: "from-primary to-secondary",
   },
 ];
 
