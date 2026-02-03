@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
-import { Sparkles, Map, Utensils, Search, ExternalLink } from "lucide-react";
+import { Sparkles, Map, Utensils, ExternalLink } from "lucide-react";
+import yourelLogo from "@/assets/yourel-logo.png";
 
 interface Project {
   name: string;
@@ -36,7 +37,7 @@ const projects: Project[] = [
     name: "Yourel",
     url: "https://yourel.in",
     tagline: "Native Search engine for unranked sites",
-    icon: <Search className="w-6 h-6" />,
+    icon: <img src={yourelLogo} alt="Yourel" className="w-6 h-6 object-contain" />,
     gradient: "from-primary to-secondary",
   },
 ];
@@ -70,8 +71,8 @@ const Index = () => {
         <p className="text-muted-foreground text-xs mt-1">Swipe to explore</p>
       </motion.div>
 
-      {/* 16:9 Live Preview Cards */}
-      <div className="relative w-full max-w-4xl aspect-video">
+      {/* Cards - 9:16 on mobile, 16:9 on desktop */}
+      <div className="relative w-full max-w-sm md:max-w-4xl aspect-[9/16] md:aspect-video">
         <AnimatePresence mode="popLayout">
           <motion.div
             key={currentIndex}
@@ -111,7 +112,7 @@ const Index = () => {
                     </div>
                     <button
                       onClick={() => handleVisit(projects[currentIndex].url)}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${projects[currentIndex].gradient} text-white font-medium text-sm hover:scale-105 transition-transform shadow-lg`}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${projects[currentIndex].gradient} text-primary-foreground font-medium text-sm hover:scale-105 transition-transform shadow-lg`}
                     >
                       Visit
                       <ExternalLink className="w-4 h-4" />
@@ -148,7 +149,7 @@ const Index = () => {
             onClick={() => setCurrentIndex(index)}
             className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
               index === currentIndex
-                ? `bg-gradient-to-br ${project.gradient} text-white shadow-lg`
+                ? `bg-gradient-to-br ${project.gradient} text-primary-foreground shadow-lg`
                 : "bg-muted text-muted-foreground hover:bg-muted/80"
             }`}
             whileHover={{ scale: 1.05 }}
