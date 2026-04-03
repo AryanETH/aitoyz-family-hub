@@ -2,53 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-/* AIToyz - Glassmorphic Dashboard Design System */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPx3cwhsk.woff2) format('woff2');
+}
 
 @layer base {
   :root {
-    --background: 240 20% 95%;
-    --foreground: 240 10% 20%;
+    --background: 0 0% 5%;
+    --foreground: 0 0% 95%;
 
-    --card: 240 30% 98%;
-    --card-foreground: 240 10% 20%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 20%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 260 60% 55%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 200 70% 55%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 90%;
 
-    --muted: 240 15% 90%;
-    --muted-foreground: 240 5% 50%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 55%;
 
-    --accent: 320 60% 60%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 95%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 15% 88%;
-    --input: 240 15% 88%;
-    --ring: 260 60% 55%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 0 0% 40%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
 
-    /* Glassmorphic tokens */
-    --glass-bg: hsla(240, 30%, 98%, 0.6);
-    --glass-border: hsla(240, 30%, 100%, 0.5);
-    --glass-shadow: 0 8px 32px hsla(260, 60%, 50%, 0.08);
-
-    --sidebar-background: 240 30% 98%;
-    --sidebar-foreground: 240 10% 20%;
-    --sidebar-primary: 260 60% 55%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 20% 94%;
-    --sidebar-accent-foreground: 240 10% 20%;
-    --sidebar-border: 240 15% 90%;
-    --sidebar-ring: 260 60% 55%;
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 0 0% 40%;
   }
 }
 
@@ -59,29 +60,16 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'JetBrains Mono', monospace;
   }
 }
 
-@layer components {
-  .glass-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-  }
-
-  .text-gradient {
-    background: linear-gradient(135deg, hsl(260, 60%, 55%), hsl(320, 60%, 60%));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-}
-
-/* No scroll for dashboard */
 html, body, #root {
   height: 100%;
   overflow: hidden;
+}
+
+@keyframes scroll-websites {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-500%); }
 }
