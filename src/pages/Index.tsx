@@ -10,30 +10,35 @@ const products = [
     tagline: "AI social gaming platform",
     url: "games.aitoyz.in",
     logo: oplusLogo,
+    key: "oplus",
   },
   {
     name: "Yourel",
     tagline: "Hidden web search engine",
     url: "search.aitoyz.in",
     logo: yourelLogo,
+    key: "yourel",
   },
   {
     name: "EUvsIN",
     tagline: "Food checker + group shopping",
     url: "shop.aitoyz.in",
     logo: null,
+    key: "euvsin",
   },
   {
     name: "Maplix",
     tagline: "AI discovery map",
     url: "maps.aitoyz.in",
     logo: maplixLogo,
+    key: "maplix",
   },
   {
     name: "SwapEat",
     tagline: "Hyperlocal food sharing",
     url: "food.aitoyz.in",
     logo: null,
+    key: "swapeat",
   },
 ];
 
@@ -95,8 +100,10 @@ const Index = () => {
       >
         {/* Screen bezel */}
         <div className="relative bg-[hsl(0,0%,12%)] rounded-t-2xl p-[6px] md:p-2 border border-[hsl(var(--border))]">
-          {/* Camera notch */}
-          <div className="absolute top-[3px] left-1/2 -translate-x-1/2 w-2 h-2 md:w-3 md:h-3 rounded-full bg-[hsl(0,0%,18%)] border border-[hsl(0,0%,22%)] z-10" />
+          {/* Notch */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 md:w-24 h-3 md:h-4 bg-[hsl(0,0%,12%)] rounded-b-lg z-10 flex items-center justify-center">
+            <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[hsl(0,0%,22%)] border border-[hsl(0,0%,28%)]" />
+          </div>
 
           {/* Screen */}
           <div className="relative bg-background rounded-lg overflow-hidden aspect-[16/10]">
@@ -109,7 +116,6 @@ const Index = () => {
                 transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className="absolute inset-0 flex flex-col items-center justify-center p-6 md:p-12"
               >
-                {/* Product logo or name */}
                 <div className="flex flex-col items-center gap-4 md:gap-6">
                   {activeProduct.logo ? (
                     <img
@@ -160,16 +166,37 @@ const Index = () => {
         <div className="relative bg-[hsl(0,0%,11%)] rounded-b-2xl pt-2 pb-3 px-3 md:pt-3 md:pb-4 md:px-6 border border-t-0 border-[hsl(var(--border))]">
           {/* Keyboard rows */}
           <div className="flex flex-col gap-[3px] md:gap-1">
-            {/* Row 1 - Function keys */}
+            {/* Row 1 - Function keys with product names on first 5 */}
             <div className="flex gap-[2px] md:gap-[3px]">
-              {Array.from({ length: 14 }).map((_, i) => (
-                <div
-                  key={i}
-                  className={`h-3 md:h-5 rounded-[2px] bg-[hsl(0,0%,16%)] ${
-                    i === 0 ? "flex-[0.8]" : "flex-1"
-                  }`}
-                />
-              ))}
+              {Array.from({ length: 14 }).map((_, i) => {
+                const isProductKey = i >= 1 && i <= 5;
+                const productIndex = i - 1;
+                const product = isProductKey ? products[productIndex] : null;
+                const isActive = isProductKey && productIndex === activeIndex;
+
+                return isProductKey ? (
+                  <button
+                    key={i}
+                    onClick={() => setActiveIndex(productIndex)}
+                    className={`h-3 md:h-5 flex-1 rounded-[2px] flex items-center justify-center cursor-pointer transition-all duration-300 ${
+                      isActive
+                        ? "bg-[hsl(0,0%,28%)] shadow-[0_0_8px_rgba(255,255,255,0.15)]"
+                        : "bg-[hsl(0,0%,16%)] hover:bg-[hsl(0,0%,22%)] hover:shadow-[0_0_6px_rgba(255,255,255,0.08)]"
+                    }`}
+                  >
+                    <span className="text-[4px] md:text-[6px] text-foreground/70 uppercase tracking-wider font-medium select-none">
+                      {product!.name}
+                    </span>
+                  </button>
+                ) : (
+                  <div
+                    key={i}
+                    className={`h-3 md:h-5 rounded-[2px] bg-[hsl(0,0%,16%)] ${
+                      i === 0 ? "flex-[0.8]" : "flex-1"
+                    }`}
+                  />
+                );
+              })}
             </div>
             {/* Row 2 */}
             <div className="flex gap-[2px] md:gap-[3px]">
