@@ -1,294 +1,255 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import {
-  Gamepad2,
-  Search,
-  ShoppingCart,
-  MapPin,
-  UtensilsCrossed,
-  ExternalLink,
-  LayoutDashboard,
-  BarChart3,
-  FileText,
-  Bell,
-  SearchIcon,
-  Activity,
-  TrendingUp,
-  Users,
-  Globe,
-} from "lucide-react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import oplusLogo from "@/assets/oplus-logo.png";
 import yourelLogo from "@/assets/yourel-logo.png";
 import maplixLogo from "@/assets/maplix-logo.png";
 
-interface Product {
-  name: string;
-  tagline: string;
-  url: string;
-  icon: React.ReactNode;
-  logo?: string;
-  color: string;
-  status: string;
-  stat: string;
-  statLabel: string;
-}
-
-const products: Product[] = [
+const products = [
   {
     name: "Oplus",
     tagline: "AI social gaming platform",
-    url: "https://games.aitoyz.in",
-    icon: <Gamepad2 className="w-5 h-5" />,
+    url: "games.aitoyz.in",
     logo: oplusLogo,
-    color: "from-violet-500 to-purple-600",
-    status: "Live",
-    stat: "2.1K",
-    statLabel: "Players",
   },
   {
     name: "Yourel",
     tagline: "Hidden web search engine",
-    url: "https://search.aitoyz.in",
-    icon: <Search className="w-5 h-5" />,
+    url: "search.aitoyz.in",
     logo: yourelLogo,
-    color: "from-cyan-500 to-blue-600",
-    status: "Invite Only",
-    stat: "50K+",
-    statLabel: "Pages Indexed",
   },
   {
     name: "EUvsIN",
     tagline: "Food checker + group shopping",
-    url: "https://shop.aitoyz.in",
-    icon: <ShoppingCart className="w-5 h-5" />,
-    color: "from-emerald-400 to-teal-600",
-    status: "Live",
-    stat: "340",
-    statLabel: "Products",
+    url: "shop.aitoyz.in",
+    logo: null,
   },
   {
     name: "Maplix",
     tagline: "AI discovery map",
-    url: "https://maps.aitoyz.in",
-    icon: <MapPin className="w-5 h-5" />,
+    url: "maps.aitoyz.in",
     logo: maplixLogo,
-    color: "from-orange-400 to-red-500",
-    status: "Live",
-    stat: "1.8K",
-    statLabel: "Locations",
   },
   {
     name: "SwapEat",
     tagline: "Hyperlocal food sharing",
-    url: "https://food.aitoyz.in",
-    icon: <UtensilsCrossed className="w-5 h-5" />,
-    color: "from-pink-400 to-rose-500",
-    status: "Coming Soon",
-    stat: "--",
-    statLabel: "Launching",
+    url: "food.aitoyz.in",
+    logo: null,
   },
 ];
 
-const sidebarItems = [
-  { icon: <LayoutDashboard className="w-5 h-5" />, label: "Dashboard", active: true },
-  { icon: <Gamepad2 className="w-5 h-5" />, label: "Gaming" },
-  { icon: <Search className="w-5 h-5" />, label: "Search" },
-  { icon: <ShoppingCart className="w-5 h-5" />, label: "Shopping" },
-  { icon: <MapPin className="w-5 h-5" />, label: "Maps" },
-  { icon: <UtensilsCrossed className="w-5 h-5" />, label: "Food" },
-];
-
 const Index = () => {
-  const [activeProduct, setActiveProduct] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const handleVisit = (url: string) => {
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % products.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const activeProduct = products[activeIndex];
 
   return (
-    <div className="h-screen w-screen flex bg-gradient-to-br from-[hsl(240,30%,95%)] via-[hsl(260,25%,93%)] to-[hsl(300,20%,94%)] overflow-hidden">
-      {/* Decorative blobs */}
-      <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-purple-300/30 to-pink-200/20 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] rounded-full bg-gradient-to-br from-blue-300/20 to-cyan-200/20 blur-3xl pointer-events-none" />
+    <div className="h-screen w-screen flex flex-col items-center justify-center bg-background overflow-hidden relative">
+      {/* Header */}
+      <motion.div
+        className="absolute top-8 left-8 md:top-12 md:left-12"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
+        <h1 className="text-foreground text-xl md:text-2xl font-bold tracking-[0.3em] uppercase">
+          AIToyz
+        </h1>
+        <p className="text-muted-foreground text-[10px] md:text-xs tracking-[0.2em] mt-1">
+          AI product ecosystem
+        </p>
+      </motion.div>
 
-      {/* Sidebar - hidden on mobile */}
-      <aside className="hidden md:flex flex-col w-20 lg:w-64 h-full glass-card rounded-none border-r border-l-0 border-t-0 border-b-0 py-6 px-2 lg:px-4 shrink-0">
-        {/* Logo */}
-        <div className="flex items-center gap-3 px-2 mb-8">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-            <Globe className="w-5 h-5 text-white" />
-          </div>
-          <div className="hidden lg:block">
-            <h1 className="font-display text-xl font-bold tracking-wide text-foreground">AITOYZ</h1>
-          </div>
-        </div>
+      {/* Product nav dots */}
+      <motion.div
+        className="absolute top-8 right-8 md:top-12 md:right-12 flex gap-3 items-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+      >
+        {products.map((p, i) => (
+          <button
+            key={p.name}
+            onClick={() => setActiveIndex(i)}
+            className={`w-2 h-2 rounded-full transition-all duration-500 ${
+              i === activeIndex
+                ? "bg-foreground w-6"
+                : "bg-muted-foreground/40 hover:bg-muted-foreground"
+            }`}
+          />
+        ))}
+      </motion.div>
 
-        {/* Nav items */}
-        <nav className="flex-1 flex flex-col gap-1">
-          {sidebarItems.map((item, i) => (
-            <button
-              key={i}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-sm ${
-                item.active
-                  ? "bg-primary/10 text-primary font-medium"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
-              }`}
-            >
-              {item.icon}
-              <span className="hidden lg:inline">{item.label}</span>
-            </button>
-          ))}
-        </nav>
-      </aside>
+      {/* MacBook Frame */}
+      <motion.div
+        className="relative w-[90vw] max-w-[900px]"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        {/* Screen bezel */}
+        <div className="relative bg-[hsl(0,0%,12%)] rounded-t-2xl p-[6px] md:p-2 border border-[hsl(var(--border))]">
+          {/* Camera notch */}
+          <div className="absolute top-[3px] left-1/2 -translate-x-1/2 w-2 h-2 md:w-3 md:h-3 rounded-full bg-[hsl(0,0%,18%)] border border-[hsl(0,0%,22%)] z-10" />
 
-      {/* Main content */}
-      <main className="flex-1 flex flex-col h-full overflow-hidden">
-        {/* Top bar */}
-        <header className="flex items-center justify-between px-4 md:px-8 py-4 shrink-0">
-          {/* Mobile logo */}
-          <div className="flex md:hidden items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-              <Globe className="w-4 h-4 text-white" />
-            </div>
-            <span className="font-display text-lg font-bold tracking-wide">AITOYZ</span>
-          </div>
-
-          <div className="hidden md:block">
-            <h2 className="text-lg font-semibold text-foreground">Welcome to AIToyz</h2>
-            <p className="text-xs text-muted-foreground">Your AI product ecosystem</p>
-          </div>
-
-          {/* Search + actions */}
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 glass-card rounded-full px-4 py-2">
-              <SearchIcon className="w-4 h-4 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="bg-transparent border-none outline-none text-sm w-32 lg:w-48 placeholder:text-muted-foreground"
-              />
-            </div>
-            <div className="flex gap-2">
-              {["Dashboard", "Analytics", "Reports"].map((tab, i) => (
-                <button
-                  key={tab}
-                  className={`hidden lg:block px-3 py-1.5 rounded-lg text-sm transition-all ${
-                    i === 0 ? "bg-primary/10 text-primary font-medium" : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-            <button className="relative w-9 h-9 rounded-full glass-card flex items-center justify-center">
-              <Bell className="w-4 h-4 text-muted-foreground" />
-              <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full border-2 border-background" />
-            </button>
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-400 to-pink-400" />
-          </div>
-        </header>
-
-        {/* Dashboard grid */}
-        <div className="flex-1 px-4 md:px-8 pb-4 overflow-hidden">
-          {/* Title */}
-          <motion.div
-            className="mb-4"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <h1 className="font-display text-2xl md:text-4xl font-bold text-foreground">
-              Our Product Ecosystem
-            </h1>
-          </motion.div>
-
-          {/* Grid layout */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 h-[calc(100%-3rem)]">
-            {products.map((product, index) => (
+          {/* Screen */}
+          <div className="relative bg-background rounded-lg overflow-hidden aspect-[16/10]">
+            <AnimatePresence mode="wait">
               <motion.div
-                key={product.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.08 }}
-                className="relative group cursor-pointer"
-                onMouseEnter={() => setActiveProduct(index)}
-                onMouseLeave={() => setActiveProduct(null)}
-                onClick={() => handleVisit(product.url)}
+                key={activeIndex}
+                initial={{ x: "100%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: "-100%", opacity: 0 }}
+                transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="absolute inset-0 flex flex-col items-center justify-center p-6 md:p-12"
               >
-                <div className="glass-card rounded-2xl h-full p-4 flex flex-col justify-between hover:scale-[1.02] transition-all duration-300 relative overflow-hidden">
-                  {/* Gradient accent */}
-                  <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${product.color} opacity-60 group-hover:opacity-100 transition-opacity`} />
-
-                  {/* Top section */}
-                  <div>
-                    {/* Icon + Status */}
-                    <div className="flex items-start justify-between mb-3">
-                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${product.color} flex items-center justify-center shadow-lg`}>
-                        {product.logo ? (
-                          <img src={product.logo} alt={product.name} className="w-7 h-7 object-contain" />
-                        ) : (
-                          <span className="text-white">{product.icon}</span>
-                        )}
-                      </div>
-                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
-                        product.status === "Live"
-                          ? "bg-emerald-100 text-emerald-700"
-                          : product.status === "Coming Soon"
-                          ? "bg-amber-100 text-amber-700"
-                          : "bg-blue-100 text-blue-700"
-                      }`}>
-                        {product.status}
+                {/* Product logo or name */}
+                <div className="flex flex-col items-center gap-4 md:gap-6">
+                  {activeProduct.logo ? (
+                    <img
+                      src={activeProduct.logo}
+                      alt={activeProduct.name}
+                      className="w-16 h-16 md:w-24 md:h-24 object-contain brightness-0 invert opacity-90"
+                    />
+                  ) : (
+                    <div className="w-16 h-16 md:w-24 md:h-24 rounded-2xl border border-[hsl(var(--border))] flex items-center justify-center">
+                      <span className="text-foreground text-2xl md:text-4xl font-bold">
+                        {activeProduct.name[0]}
                       </span>
                     </div>
+                  )}
 
-                    {/* Name + tagline */}
-                    <h3 className="font-display text-lg md:text-xl font-bold text-foreground tracking-wide">
-                      {product.name}
-                    </h3>
-                    <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-                      {product.tagline}
-                    </p>
-                  </div>
+                  <h2 className="text-foreground text-3xl md:text-6xl font-bold tracking-[0.2em] uppercase">
+                    {activeProduct.name}
+                  </h2>
 
-                  {/* Bottom section */}
-                  <div className="mt-auto pt-4">
-                    {/* Stat */}
-                    <div className="flex items-end justify-between mb-3">
-                      <div>
-                        <p className="text-2xl md:text-3xl font-bold text-foreground">{product.stat}</p>
-                        <p className="text-[10px] text-muted-foreground">{product.statLabel}</p>
-                      </div>
-                      <TrendingUp className={`w-4 h-4 ${product.status === "Coming Soon" ? "text-muted-foreground/30" : "text-emerald-500"}`} />
-                    </div>
+                  <p className="text-muted-foreground text-xs md:text-sm tracking-[0.15em]">
+                    {activeProduct.tagline}
+                  </p>
 
-                    {/* Mini chart placeholder */}
-                    <div className="flex items-end gap-0.5 h-8">
-                      {[40, 65, 45, 80, 55, 70, 90, 60, 75].map((h, i) => (
-                        <div
-                          key={i}
-                          className={`flex-1 rounded-sm bg-gradient-to-t ${product.color} transition-all duration-300`}
-                          style={{
-                            height: `${product.status === "Coming Soon" ? 10 : h}%`,
-                            opacity: product.status === "Coming Soon" ? 0.15 : (activeProduct === index ? 0.8 : 0.3),
-                          }}
-                        />
-                      ))}
-                    </div>
-
-                    {/* Visit button */}
-                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/50">
-                      <span className="text-xs text-muted-foreground truncate">
-                        {product.url.replace("https://", "")}
-                      </span>
-                      <ExternalLink className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
-                    </div>
-                  </div>
+                  <span className="text-muted-foreground/60 text-[10px] md:text-xs tracking-widest mt-2">
+                    {activeProduct.url}
+                  </span>
                 </div>
               </motion.div>
-            ))}
+            </AnimatePresence>
+
+            {/* Progress bar */}
+            <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[hsl(var(--border))]">
+              <motion.div
+                className="h-full bg-foreground/40"
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 5, ease: "linear" }}
+                key={activeIndex}
+              />
+            </div>
           </div>
         </div>
-      </main>
+
+        {/* MacBook hinge */}
+        <div className="relative h-3 md:h-4 bg-gradient-to-b from-[hsl(0,0%,14%)] to-[hsl(0,0%,10%)] rounded-b-sm mx-[2%]" />
+
+        {/* Keyboard body */}
+        <div className="relative bg-[hsl(0,0%,11%)] rounded-b-2xl pt-2 pb-3 px-3 md:pt-3 md:pb-4 md:px-6 border border-t-0 border-[hsl(var(--border))]">
+          {/* Keyboard rows */}
+          <div className="flex flex-col gap-[3px] md:gap-1">
+            {/* Row 1 - Function keys */}
+            <div className="flex gap-[2px] md:gap-[3px]">
+              {Array.from({ length: 14 }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`h-3 md:h-5 rounded-[2px] bg-[hsl(0,0%,16%)] ${
+                    i === 0 ? "flex-[0.8]" : "flex-1"
+                  }`}
+                />
+              ))}
+            </div>
+            {/* Row 2 */}
+            <div className="flex gap-[2px] md:gap-[3px]">
+              {Array.from({ length: 14 }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`h-4 md:h-6 rounded-[2px] bg-[hsl(0,0%,16%)] ${
+                    i === 0 || i === 13 ? "flex-[1.3]" : "flex-1"
+                  }`}
+                />
+              ))}
+            </div>
+            {/* Row 3 */}
+            <div className="flex gap-[2px] md:gap-[3px]">
+              {Array.from({ length: 13 }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`h-4 md:h-6 rounded-[2px] bg-[hsl(0,0%,16%)] ${
+                    i === 0 ? "flex-[1.6]" : i === 12 ? "flex-[1.6]" : "flex-1"
+                  }`}
+                />
+              ))}
+            </div>
+            {/* Row 4 */}
+            <div className="flex gap-[2px] md:gap-[3px]">
+              {Array.from({ length: 12 }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`h-4 md:h-6 rounded-[2px] bg-[hsl(0,0%,16%)] ${
+                    i === 0 ? "flex-[2]" : i === 11 ? "flex-[2]" : "flex-1"
+                  }`}
+                />
+              ))}
+            </div>
+            {/* Row 5 - Bottom with spacebar */}
+            <div className="flex gap-[2px] md:gap-[3px]">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div
+                  key={`l-${i}`}
+                  className="h-4 md:h-6 flex-1 rounded-[2px] bg-[hsl(0,0%,16%)]"
+                />
+              ))}
+              <div className="h-4 md:h-6 flex-[5] rounded-[2px] bg-[hsl(0,0%,16%)]" />
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div
+                  key={`r-${i}`}
+                  className={`rounded-[2px] bg-[hsl(0,0%,16%)] ${
+                    i >= 1 ? "h-[8px] md:h-3 flex-[0.7] self-end" : "h-4 md:h-6 flex-1"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Trackpad */}
+          <div className="mt-2 md:mt-3 mx-auto w-[40%] h-10 md:h-16 rounded-lg bg-[hsl(0,0%,14%)] border border-[hsl(0,0%,20%)]" />
+        </div>
+      </motion.div>
+
+      {/* Bottom product name list */}
+      <motion.div
+        className="absolute bottom-6 md:bottom-10 flex gap-6 md:gap-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
+      >
+        {products.map((p, i) => (
+          <button
+            key={p.name}
+            onClick={() => setActiveIndex(i)}
+            className={`text-[10px] md:text-xs tracking-[0.2em] uppercase transition-all duration-500 ${
+              i === activeIndex
+                ? "text-foreground"
+                : "text-muted-foreground/30 hover:text-muted-foreground/60"
+            }`}
+          >
+            {p.name}
+          </button>
+        ))}
+      </motion.div>
     </div>
   );
 };
