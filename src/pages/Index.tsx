@@ -38,8 +38,6 @@ const screenshot = (image: string) => import.meta.env.BASE_URL + "builds/" + ima
 
 export default function Index() {
   const [selected, setSelected] = useState(0);
-  const [auto, setAuto] = useState(true);
-  const [live, setLive] = useState(false);
   const [now, setNow] = useState(Date.now);
   const remaining = Math.max(0, Math.ceil((offerEnds - now) / 1000));
   const countdown = [Math.floor(remaining / 3600), Math.floor(remaining / 60) % 60, remaining % 60]
@@ -55,20 +53,6 @@ export default function Index() {
     }, 1000);
     return () => window.clearInterval(timer);
   }, []);
-
-  useEffect(() => {
-    if (!auto || live || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setInterval(() => {
-      if (!document.hidden) setSelected((index) => (index + 1) % builds.length);
-    }, 9000);
-    return () => window.clearInterval(timer);
-  }, [auto, live]);
-
-  function chooseBuild(index: number) {
-    setSelected(index);
-    setAuto(false);
-    setLive(false);
-  }
 
   return (
     <div className="aitoyz-landing" id="top">
@@ -102,14 +86,14 @@ export default function Index() {
             <div className="shelf">
               <div className="shelf-top"><strong>Product library</strong><span aria-hidden="true">◫</span></div>
               <div className="shelf-categories" aria-label="Filter the showcase">
-                <a href="#builds" onClick={() => chooseBuild(0)}>All builds</a>
-                <a href="#builds" onClick={() => chooseBuild(2)}>AI tools</a>
-                <a href="#builds" onClick={() => chooseBuild(3)}>Web apps</a>
-                <a href="#builds" onClick={() => chooseBuild(1)}>Android</a>
+                <a href="#builds" onClick={() => setSelected(0)}>All builds</a>
+                <a href="#builds" onClick={() => setSelected(2)}>AI tools</a>
+                <a href="#builds" onClick={() => setSelected(3)}>Web apps</a>
+                <a href="#builds" onClick={() => setSelected(1)}>Android</a>
               </div>
               <div className="shelf-grid">
                 {builds.map((build, index) => (
-                  <a href="#builds" key={build.image} onClick={() => chooseBuild(index)}>
+                  <a href="#builds" key={build.image} onClick={() => setSelected(index)}>
                     <img src={screenshot(build.image)} alt="" width="960" height="435" />
                     <span className="product-label"><img src={brand("builds/" + build.image + "-logo.webp")} width="16" height="16" alt="" />{build.name}</span>
                   </a>
@@ -122,7 +106,7 @@ export default function Index() {
             <strong>Our builds</strong>
             <div className="phone-grid">
               {builds.slice(0, 4).map((build, index) => (
-                <a href="#builds" key={build.image} onClick={() => chooseBuild(index)}>
+                <a href="#builds" key={build.image} onClick={() => setSelected(index)}>
                   <img src={screenshot(build.image)} alt="" width="960" height="435" />
                   <span>{build.name}</span>
                 </a>
@@ -138,7 +122,7 @@ export default function Index() {
             <p className="section-lede">Explore the live products behind Aitoyz.</p>
             <div className="product-picker" role="group" aria-label="Choose a build">
               {builds.map((build, index) => (
-                <button key={build.image} type="button" aria-pressed={selected === index} onClick={() => chooseBuild(index)}>{build.name}</button>
+                <button key={build.image} type="button" aria-pressed={selected === index} onClick={() => setSelected(index)}>{build.name}</button>
               ))}
             </div>
             <article className="project">
@@ -146,17 +130,15 @@ export default function Index() {
                 <div><h3>{current.name}</h3><p>{current.description}</p></div>
                 <a className="button" href={current.url}>Open {current.name} ↗</a>
               </div>
-              <div className="preview-controls">
-                <button type="button" aria-pressed={live} onClick={() => setLive(!live)}>{live ? "Show cached preview" : "Load live site"}</button>
-                <button type="button" disabled={live} onClick={() => setAuto(!auto)}>{auto ? "Pause rotation" : "Resume rotation"}</button>
-              </div>
-              {live ? (
-                <iframe className="live-preview" src={current.url} title={current.name + " live site"} loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms" referrerPolicy="no-referrer" />
-              ) : (
-                <a className="project-image" href={current.url} aria-label={"Open " + current.name}>
-                  <img src={screenshot(current.image)} alt={current.name + " website screenshot"} width="960" height="435" loading="lazy" />
-                </a>
-              )}
+              <iframe
+                key={current.url}
+                className="live-preview"
+                src={current.url}
+                title={current.name + " live site"}
+                loading="lazy"
+                sandbox="allow-scripts allow-same-origin allow-forms"
+                referrerPolicy="no-referrer"
+              />
             </article>
           </div>
         </section>
