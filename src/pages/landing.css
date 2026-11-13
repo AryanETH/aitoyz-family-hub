@@ -194,3 +194,37 @@ html:has(.aitoyz-landing) { scroll-behavior: smooth; scroll-padding-top: 62px; }
   .aitoyz-landing .footer-intro { grid-column: 1 / -1; }
   .aitoyz-landing .footer nav { overflow-wrap: anywhere; }
 }
+
+.aitoyz-landing .wordmark img { display: block; width: clamp(70px, 10vw, 108px); height: auto; }
+.aitoyz-landing .shelf-grid .product-label, .aitoyz-landing .phone-grid .product-label { display: flex; align-items: center; justify-content: center; gap: 4px; }
+.aitoyz-landing .shelf-grid .product-label img, .aitoyz-landing .phone-grid .product-label img { width: 13px; height: 13px; aspect-ratio: 1; object-fit: contain; border-radius: 3px; flex-shrink: 0; }
+.aitoyz-landing .preview-controls { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.aitoyz-landing .preview-controls button { padding: 6px 11px; background: white; border: 1px solid #d7dae0; border-radius: 20px; font-size: 12px; }
+.aitoyz-landing .preview-controls button:disabled { opacity: .5; }
+.aitoyz-landing .live-preview { display: block; width: 100%; aspect-ratio: 960 / 435; min-height: 220px; background: white; border: 0; border-radius: 15px; }
+.aitoyz-landing .maps-offer {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+  margin: 20px auto 0; padding: 15px 18px; border-radius: 17px; background: #f3ff9c; text-align: left;
+}
+.aitoyz-landing .maps-offer h3 { font-size: 21px; }
+.aitoyz-landing .maps-offer p, .aitoyz-landing .pricing-note { margin-top: 5px; font-size: 13px; }
+.aitoyz-landing .offer-clock { font-variant-numeric: tabular-nums; font-weight: 750; }
+.aitoyz-landing .pricing-note { color: #303947; margin: 12px auto 0; }
+.aitoyz-landing .service-grid .plan-price { color: #171b0e; font-weight: 750; font-size: 21px; }
+.aitoyz-landing .ask-chatgpt {
+  position: fixed; z-index: 9; right: 14px; bottom: 14px;
+  display: flex; align-items: center; gap: 7px; padding: 7px 11px;
+  border-radius: 22px; background: #0b0b0c; color: white; font-size: 12px;
+  box-shadow: 0 3px 14px #0004;
+}
+.aitoyz-landing .ask-icon { position: relative; display: grid; place-items: center; width: 28px; height: 28px; color: var(--accent); animation: aitoyz-ask-spin 20s linear infinite; }
+.aitoyz-landing .ask-icon svg + svg { position: absolute; top: 3px; right: 2px; }
+@keyframes aitoyz-ask-spin { to { transform: rotate(360deg); } }
+@media (max-width: 620px) {
+  .aitoyz-landing .service-grid .plan-price { grid-column: 2; font-size: 18px; }
+  .aitoyz-landing .service-grid article > p { grid-column: 2; }
+  .aitoyz-landing .shelf-grid .product-label img { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aitoyz-landing .ask-icon { animation: none; }
+}

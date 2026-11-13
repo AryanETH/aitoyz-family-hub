@@ -12,3 +12,8 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+Sitemap: https://aitoyz.in/sitemap.xml
