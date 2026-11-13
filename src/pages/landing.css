@@ -2,6 +2,7 @@ html:has(.aitoyz-landing) { scroll-behavior: smooth; scroll-padding-top: 62px; }
 
 .aitoyz-landing {
   --accent: #e4f222;
+  --hero-hills: url("https://framerusercontent.com/images/nPC5LinxU0QXPc5T35AhqIcTd0o.webp");
   --ink: #111212;
   --paper: #fff;
   --muted: #535760;
@@ -34,7 +35,7 @@ html:has(.aitoyz-landing) { scroll-behavior: smooth; scroll-padding-top: 62px; }
 }
 .aitoyz-landing .hero::before {
   content: ""; position: absolute; z-index: -2; inset: auto 0 0; height: 52%;
-  background: url("https://framerusercontent.com/images/nPC5LinxU0QXPc5T35AhqIcTd0o.webp") center 68% / cover no-repeat;
+  background: var(--hero-hills) center 68% / cover no-repeat;
 }
 .aitoyz-landing .hero::after { content: ""; position: absolute; z-index: -1; inset: auto 0 0; height: 15%; background: linear-gradient(transparent, white); }
 .aitoyz-landing .hero-copy { text-shadow: 0 1px 14px #11207a40; }
@@ -227,4 +228,35 @@ html:has(.aitoyz-landing) { scroll-behavior: smooth; scroll-padding-top: 62px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .aitoyz-landing .ask-icon { animation: none; }
+}
+
+/* Both hills share the hero's scroll position, with a fixed depth offset. */
+.aitoyz-landing .hero-landscape {
+  position: absolute;
+  z-index: -1;
+  inset: auto 0 0;
+  height: 43%;
+  background: var(--hero-hills) center calc(100% + clamp(85px, 19svh, 165px)) / cover no-repeat;
+  opacity: .34;
+  filter: saturate(.64) hue-rotate(34deg);
+  transform: scaleX(-1);
+  pointer-events: none;
+}
+.aitoyz-landing .device-status,
+.aitoyz-landing .device-status > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.aitoyz-landing .device-status {
+  gap: 6px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  pointer-events: auto;
+  text-shadow: 0 1px 4px #14364a;
+}
+.aitoyz-landing .glass-top .device-status { flex-direction: row-reverse; }
+@media (max-width: 620px) {
+  .aitoyz-landing .hero-landscape { height: 37%; background-position: center calc(100% + 42px); }
+  .aitoyz-landing .device-status { gap: 3px; font-size: 10px; }
 }

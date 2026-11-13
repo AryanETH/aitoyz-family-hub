@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AppWindow, Code2, MapPin, MessageCircle, Sparkles } from "lucide-react";
 import "./landing.css";
+import DeviceStatus from "./DeviceStatus";
 
 const builds = [
   { name: "CineWall", type: "Web app", image: "cinewall", url: "https://watch.aitoyz.in/", description: "Turn your laptops into one synchronized video wall." },
@@ -94,9 +95,10 @@ export default function Index() {
             </div>
           </div>
 
+          <div className="hero-landscape" aria-hidden="true" />
           <div className="hero-scene">
           <div className="glass">
-            <div className="glass-top" aria-hidden="true"><span>✦ Aitoyz</span><span>•••</span></div>
+            <div className="glass-top"><span aria-hidden="true">✦ Aitoyz</span><DeviceStatus /></div>
             <div className="shelf">
               <div className="shelf-top"><strong>Product library</strong><span aria-hidden="true">◫</span></div>
               <div className="shelf-categories" aria-label="Filter the showcase">
@@ -116,7 +118,7 @@ export default function Index() {
             </div>
           </div>
           <div className="phone">
-            <div className="phone-top" aria-hidden="true"><span>✦</span><span>•••</span></div>
+            <div className="phone-top"><span aria-hidden="true">✦</span><DeviceStatus /></div>
             <strong>Our builds</strong>
             <div className="phone-grid">
               {builds.slice(0, 4).map((build, index) => (
