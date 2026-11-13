@@ -18,6 +18,8 @@ const services = [
 const questions = [
   ["Can we start with just an idea?", "Yes. Tell us what you want to build and who will use it. We can help define a first version."],
   ["Can you work on an existing product?", "Yes. Share what you have and what you want to add or improve."],
+  ["Do you build both websites and apps?", "Yes. We build marketing sites, web apps, and mobile apps."],
+  ["Can you build an AI feature?", "Yes. Tell us where AI could help and what data or tools it would need to work with."],
   ["What should I include in my enquiry?", "Send a brief with your goal, timeline, budget range, and any examples you like."],
 ];
 
@@ -46,17 +48,24 @@ export default function Index() {
           <div className="hero-copy">
             <p className="eyebrow">✦ AI, web &amp; app development</p>
             <h1 id="hero-title">Bring an idea.<em>Build it with Aitoyz.</em></h1>
-            <p>We build AI tools, websites, and mobile apps.</p>
+            <p>We design and develop AI tools, websites, and mobile apps. Explore our products and see what we can build together.</p>
             <div className="actions">
               <a className="button" href="#builds">Explore our builds ↓</a>
               <a className="button light" href="#contact">Start a project ↗</a>
             </div>
           </div>
 
+          <div className="hero-scene">
           <div className="glass">
             <div className="glass-top" aria-hidden="true"><span>✦ Aitoyz</span><span>•••</span></div>
             <div className="shelf">
-              <div className="shelf-top"><strong>Built by Aitoyz</strong><span aria-hidden="true">◫</span></div>
+              <div className="shelf-top"><strong>Product library</strong><span aria-hidden="true">◫</span></div>
+              <div className="shelf-categories" aria-label="Filter the showcase">
+                <a href="#builds" onClick={() => setSelected(0)}>All builds</a>
+                <a href="#builds" onClick={() => setSelected(2)}>AI tools</a>
+                <a href="#builds" onClick={() => setSelected(3)}>Web apps</a>
+                <a href="#builds" onClick={() => setSelected(1)}>Android</a>
+              </div>
               <div className="shelf-grid">
                 {builds.map((build, index) => (
                   <a href="#builds" key={build.image} onClick={() => setSelected(index)}>
@@ -67,11 +76,25 @@ export default function Index() {
               </div>
             </div>
           </div>
+          <div className="phone">
+            <div className="phone-top" aria-hidden="true"><span>✦</span><span>•••</span></div>
+            <strong>Our builds</strong>
+            <div className="phone-grid">
+              {builds.slice(0, 4).map((build, index) => (
+                <a href="#builds" key={build.image} onClick={() => setSelected(index)}>
+                  <img src={screenshot(build.image)} alt="" width="960" height="435" />
+                  <span>{build.name}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+          </div>
         </section>
 
         <section className="screen builds" id="builds" aria-labelledby="builds-title">
           <div className="wrap">
             <h2 id="builds-title">See what we’ve built.</h2>
+            <p className="section-lede">Explore the live products behind Aitoyz.</p>
             <div className="product-picker" role="group" aria-label="Choose a build">
               {builds.map((build, index) => (
                 <button key={build.image} type="button" aria-pressed={selected === index} onClick={() => setSelected(index)}>{build.name}</button>
@@ -91,7 +114,7 @@ export default function Index() {
 
         <section className="screen services" id="services" aria-labelledby="services-title">
           <div className="wrap">
-            <h2 id="services-title">What we can<em>build for you.</em></h2>
+            <h2 id="services-title">What we can<br />build for you.</h2>
             <div className="service-grid">
               {services.map(([title, description], index) => (
                 <article key={title}><span aria-hidden="true">{["✦", "↗", "▣"][index]}</span><h3>{title}</h3><p>{description}</p></article>
@@ -103,7 +126,8 @@ export default function Index() {
 
         <section className="screen faq" id="faq" aria-labelledby="faq-title">
           <div className="wrap">
-            <h2 id="faq-title">Frequently asked<em>questions.</em></h2>
+            <h2 id="faq-title">Frequently asked<br />questions.</h2>
+            <p className="section-lede">What to know before starting a project with Aitoyz.</p>
             <div className="questions">
               {questions.map(([question, answer]) => (
                 <details key={question}><summary>{question}</summary><p>{answer}</p></details>
@@ -115,13 +139,21 @@ export default function Index() {
 
       <footer className="screen footer" id="contact" aria-labelledby="contact-title">
         <div className="wrap footer-content">
-          <h2 id="contact-title">Have something<em>in mind?</em></h2>
-          <div className="actions">
-            <a className="button accent" href={email}>Email hello@aitoyz.in ↗</a>
-            <a className="button light" href="https://www.linkedin.com/in/aryan686/">LinkedIn ↗</a>
+          <div className="footer-intro">
+            <a className="wordmark" href="#top"><span aria-hidden="true">✦</span> Aitoyz</a>
+            <h2 id="contact-title">Bring an idea.<em>Build it with Aitoyz.</em></h2>
+            <p>AI tools, websites, and mobile apps.</p>
+            <a className="button light" href={email}>Start a project ↗</a>
           </div>
           <nav aria-label="Footer navigation">
-            <a href="#builds">Builds</a><a href="#services">Services</a><a href="#faq">FAQ</a><a href="#top">Back to top ↑</a>
+            <h3>Menu</h3><a href="#top">Home</a><a href="#builds">Builds</a><a href="#services">Services</a><a href="#faq">FAQ</a>
+          </nav>
+          <nav aria-label="Contact links">
+            <h3>Contact</h3><a href={email}>hello@aitoyz.in</a><a href="https://www.linkedin.com/in/aryan686/">LinkedIn ↗</a><a href="https://github.com/AryanETH">GitHub ↗</a>
+          </nav>
+          <nav aria-label="Product links">
+            <h3>Our builds</h3>
+            {builds.map((build) => <a href={build.url} key={build.image}>{build.name} ↗</a>)}
           </nav>
         </div>
         <div className="footer-wordmark" aria-hidden="true">Aitoyz</div>
