@@ -1,172 +1,131 @@
+import { useState } from "react";
 import "./landing.css";
 
+const builds = [
+  { name: "CineWall", type: "Web app", image: "cinewall", url: "https://watch.aitoyz.in/", description: "Turn your laptops into one synchronized video wall." },
+  { name: "Mapplock", type: "Android app", image: "mapplock", url: "https://maps.aitoyz.in/", description: "A private photo vault and app lock disguised as a map." },
+  { name: "Oplus", type: "AI tool", image: "oplus", url: "https://games.aitoyz.in/", description: "Turn text into playable games and interactive stories." },
+  { name: "Yourel", type: "Search engine", image: "yourel", url: "https://search.aitoyz.in/", description: "Find independent websites and tools across hosting platforms." },
+  { name: "EUvsIN", type: "AI tool", image: "euvsin", url: "https://shop.aitoyz.in/", description: "Look up Indian food products and make sense of their ingredients." },
+];
+
+const services = [
+  ["AI tools", "Build an AI assistant, automate a workflow, or add AI to your product."],
+  ["Web development", "Launch a responsive website, landing page, or web app."],
+  ["App development", "Design and build a mobile app around what your users need to do."],
+];
+
+const questions = [
+  ["Can we start with just an idea?", "Yes. Tell us what you want to build and who will use it. We can help define a first version."],
+  ["Can you work on an existing product?", "Yes. Share what you have and what you want to add or improve."],
+  ["What should I include in my enquiry?", "Send a brief with your goal, timeline, budget range, and any examples you like."],
+];
+
+const email = "mailto:hello@aitoyz.in?subject=Aitoyz%20project%20enquiry";
+const screenshot = (image: string) => import.meta.env.BASE_URL + "builds/" + image + ".webp";
+
 export default function Index() {
+  const [selected, setSelected] = useState(0);
+  const current = builds[selected];
+
   return (
-    <div className="aitoyz-landing">
-    <a href="#main" className="skip">Skip to content</a>
-    <header className="nav">
-      <a className="brand" href="#home">
-        <span className="mark" aria-hidden="true">?</span>Aitoyz</a>
-        <nav className="navlinks" aria-label="Main navigation">
+    <div className="aitoyz-landing" id="top">
+      <a className="skip" href="#main">Skip to content</a>
+      <header className="topbar">
+        <a className="wordmark" href="#top"><span aria-hidden="true">✦</span> Aitoyz</a>
+        <nav aria-label="Main navigation">
           <a href="#builds">Builds</a>
           <a href="#services">Services</a>
           <a href="#faq">FAQ</a>
         </nav>
-        <a className="navcta" href="#contact">Get in touch ?</a>
+        <a className="nav-contact" href="#contact">Get in touch ↗</a>
       </header>
+
       <main id="main">
-        <section className="screen hero" id="home" aria-labelledby="hero-title">
-          <div className="wrap">
-            <p className="eyebrow">? AI, web &amp; app development</p>
-            <h1 id="hero-title">Bring an idea.<em>Build it with Aitoyz.</em>
-          </h1>
-          <p className="lede">We build AI tools, websites, and mobile apps. Explore what we've shipped and tell us what you want to make.</p>
-          <div className="actions">
-            <a className="button" href="#builds">Explore our builds </a>
-            <a className="button light" href="#contact">Start a project ?</a>
-          </div>
-          <div className="window">
-            <div className="bar">
-              <span className="dots" aria-hidden="true">? ? ?</span>
-              <strong>Built by Aitoyz</strong>
-              <span>Product library</span>
+        <section className="screen hero" aria-labelledby="hero-title">
+          <div className="hero-copy">
+            <p className="eyebrow">✦ AI, web &amp; app development</p>
+            <h1 id="hero-title">Bring an idea.<em>Build it with Aitoyz.</em></h1>
+            <p>We build AI tools, websites, and mobile apps.</p>
+            <div className="actions">
+              <a className="button" href="#builds">Explore our builds ↓</a>
+              <a className="button light" href="#contact">Start a project ↗</a>
             </div>
+          </div>
+
+          <div className="glass">
+            <div className="glass-top" aria-hidden="true"><span>✦ Aitoyz</span><span>•••</span></div>
             <div className="shelf">
-              <a className="tile" href="#cinewall">
-                <strong>CineWall ?</strong>
-                <small>Browser app</small>
-              </a>
-              <a className="tile" href="#mapplock">
-                <strong>Mapplock ?</strong>
-                <small>Android app</small>
-              </a>
-              <a className="tile" href="#ingredient-checker">
-                <strong>Ingredient checker ?</strong>
-                <small>AI tool</small>
-              </a>
+              <div className="shelf-top"><strong>Built by Aitoyz</strong><span aria-hidden="true">◫</span></div>
+              <div className="shelf-grid">
+                {builds.map((build, index) => (
+                  <a href="#builds" key={build.image} onClick={() => setSelected(index)}>
+                    <img src={screenshot(build.image)} alt="" width="960" height="435" />
+                    <span>{build.name}</span>
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
+        </section>
+
+        <section className="screen builds" id="builds" aria-labelledby="builds-title">
+          <div className="wrap">
+            <h2 id="builds-title">See what we’ve built.</h2>
+            <div className="product-picker" role="group" aria-label="Choose a build">
+              {builds.map((build, index) => (
+                <button key={build.image} type="button" aria-pressed={selected === index} onClick={() => setSelected(index)}>{build.name}</button>
+              ))}
+            </div>
+            <article className="project" aria-live="polite">
+              <div className="project-meta">
+                <div><h3>{current.name}</h3><p>{current.description}</p></div>
+                <a className="button" href={current.url}>Open {current.name} ↗</a>
+              </div>
+              <a className="project-image" href={current.url} aria-label={"Open " + current.name}>
+                <img src={screenshot(current.image)} alt={current.name + " website screenshot"} width="960" height="435" />
+              </a>
+            </article>
+          </div>
+        </section>
+
+        <section className="screen services" id="services" aria-labelledby="services-title">
+          <div className="wrap">
+            <h2 id="services-title">What we can<em>build for you.</em></h2>
+            <div className="service-grid">
+              {services.map(([title, description], index) => (
+                <article key={title}><span aria-hidden="true">{["✦", "↗", "▣"][index]}</span><h3>{title}</h3><p>{description}</p></article>
+              ))}
+            </div>
+            <div className="actions"><a className="button" href="#contact">Discuss your project ↗</a></div>
+          </div>
+        </section>
+
+        <section className="screen faq" id="faq" aria-labelledby="faq-title">
+          <div className="wrap">
+            <h2 id="faq-title">Frequently asked<em>questions.</em></h2>
+            <div className="questions">
+              {questions.map(([question, answer]) => (
+                <details key={question}><summary>{question}</summary><p>{answer}</p></details>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="screen footer" id="contact" aria-labelledby="contact-title">
+        <div className="wrap footer-content">
+          <h2 id="contact-title">Have something<em>in mind?</em></h2>
+          <div className="actions">
+            <a className="button accent" href={email}>Email hello@aitoyz.in ↗</a>
+            <a className="button light" href="https://www.linkedin.com/in/aryan686/">LinkedIn ↗</a>
+          </div>
+          <nav aria-label="Footer navigation">
+            <a href="#builds">Builds</a><a href="#services">Services</a><a href="#faq">FAQ</a><a href="#top">Back to top ↑</a>
+          </nav>
         </div>
-      </section>
-      <section className="screen work" id="builds" aria-labelledby="builds-title">
-        <div className="wrap">
-          <h2 id="builds-title">Built by Aitoyz.<em>Ready to explore.</em>
-        </h2>
-        <div className="grid">
-          <article className="card" id="cinewall">
-            <div className="visual cine" aria-hidden="true">
-              <div className="screens">
-                <i>
-                </i>
-                <i>
-                </i>
-                <i>
-                </i>
-              </div>
-            </div>
-            <h3>CineWall</h3>
-            <p>Turn multiple laptops into a synchronized video wall in your browser.</p>
-            <a className="cardlink" href="https://www.sideprojectors.com/project/105245/cinewall">See CineWall ?</a>
-          </article>
-          <article className="card" id="mapplock">
-            <div className="visual map" aria-hidden="true">
-              <div className="pin">
-                <i>
-                </i>
-              </div>
-            </div>
-            <h3>Mapplock</h3>
-            <p>An Android app lock and photo vault that uses map coordinates.</p>
-            <a className="cardlink" href="https://play.google.com/store/apps/details?id=com.aitoyz.mapplock">Open on Google Play ?</a>
-          </article>
-          <article className="card" id="ingredient-checker">
-            <div className="visual ingredient" aria-hidden="true">
-              <div className="scan">Ingredient list<i>
-              </i>
-              <i>
-              </i>
-              <i>
-              </i>
-            </div>
-          </div>
-          <h3>EUvsIN Ingredient Checker</h3>
-          <p>A tool that uses AI to help you understand food ingredient lists.</p>
-          <a className="cardlink" href="mailto:hello@aitoyz.in?subject=AI%20Ingredient%20Checker">Ask about this build ?</a>
-        </article>
-      </div>
-      <p className="more-builds">
-        <a href="https://games.aitoyz.in">Oplus ↗</a>
-        <a href="https://search.aitoyz.in">Yourel ↗</a>
-        <a href="https://maps.aitoyz.in">Maplix ↗</a>
-        <a href="https://food.aitoyz.in">SwapEat ↗</a>
-      </p>
-    </div>
-    </section>
-    <section className="screen services" id="services" aria-labelledby="services-title">
-    <div className="wrap">
-      <h2 id="services-title">What we build.</h2>
-      <div className="grid">
-        <article className="card">
-          <span className="symbol" aria-hidden="true">?</span>
-          <h3>AI tools</h3>
-          <p>Turn a repetitive task into an AI-assisted workflow or build AI features into your product.</p>
-        </article>
-        <article className="card">
-          <span className="symbol" aria-hidden="true">?</span>
-          <h3>Web development</h3>
-          <p>Launch a responsive website, a landing page, or a web app people can use in their browser.</p>
-        </article>
-        <article className="card">
-          <span className="symbol" aria-hidden="true">?</span>
-          <h3>App development</h3>
-          <p>Prototype and build a mobile app around the tasks your users need to do.</p>
-        </article>
-      </div>
-      <div className="actions">
-        <a className="button" href="#contact">Tell us what you need ?</a>
-      </div>
-    </div>
-    </section>
-    <section className="screen faq" id="faq" aria-labelledby="faq-title">
-    <div className="wrap">
-      <h2 id="faq-title">A few common<em>questions.</em>
-    </h2>
-    <div className="questions">
-      <details>
-        <summary>Can we start with just an idea?</summary>
-        <p>Yes. Share the problem, who it affects, and what you want users to be able to do. We can discuss what belongs in the first version.</p>
-      </details>
-      <details>
-        <summary>Can you add AI to an existing product?</summary>
-        <p>Yes. Tell us how the product works today and where you'd like AI to help so we can discuss what the integration would involve.</p>
-      </details>
-      <details>
-        <summary>What should I include in a project enquiry?</summary>
-        <p>Send a short brief with your goal, any examples you like, and your target timeline. Include a budget range if you have one.</p>
-      </details>
-    </div>
-    </div>
-    </section>
-    <section className="screen contact" id="contact" aria-labelledby="contact-title">
-    <div className="wrap">
-    <h2 id="contact-title">What do you<em>want to build?</em>
-    </h2>
-    <p className="lede">Tell us what you have in mind and what you'd like the first version to do.</p>
-    <div className="actions">
-    <a className="button" href="mailto:hello@aitoyz.in?subject=Aitoyz%20project%20enquiry">Email hello@aitoyz.in ?</a>
-    <a className="button light" href="https://www.linkedin.com/in/aryan686/">Contact on LinkedIn ?</a>
-    </div>
-    </div>
-    <footer className="footer">
-    <a className="brand" href="#home">
-    <span className="mark" aria-hidden="true">?</span>Aitoyz</a>
-    <div className="footerlinks">
-      <a href="#builds">Builds</a>
-      <a href="#home">Back to top </a>
-    </div>
-    </footer>
-    </section>
-    </main>
+        <div className="footer-wordmark" aria-hidden="true">Aitoyz</div>
+      </footer>
     </div>
   );
 }
